@@ -61,7 +61,10 @@ const displayLoginMessage=function(req){
 const displayGuestComments = (res, req) => {
   let filename = `./public/${req.url}`,fileData;
   if(req.url=='/login.html') fileData= displayLoginMessage(req);
-  else fileData=getFileData(fs,filename).toString();
+  else {
+    fileData=getFileData(fs,filename).toString();
+    fileData = fileData.replace('USER', `${req.user.name}`);
+  }
   fileData = fileData.replace('REPLACE ME', getDataInTable());
   res.setHeader('Content-Type', getMIMEType('html'));
   res.write(fileData);
