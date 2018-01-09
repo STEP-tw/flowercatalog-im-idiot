@@ -39,6 +39,9 @@ table {
 
 .comments {
   border-radius: 5px;
+  font-family: sans-serif;
+  font-size: 20px;
+  padding:8px;
   box-shadow: inset 2px 5px 10px lightGray, 3px 4px 10px lightGray;
 }
 
@@ -58,14 +61,14 @@ tr {
 input[type="text"] {
   width: 220px;
   length: 70px;
-  font-size: 25px;
+  font-size: 22px;
   border-radius: 5px;
   border: 1px solid darkGray;
   font-family: sans-serif;
 }
 
 label {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -78,9 +81,23 @@ input[type="submit"]{
   font-family: sans-serif;
   box-shadow: 5px 5px 10px darkGray;
 }
+button{
+  width:100px;
+  height:30px;
+  border-radius: 5px;
+  font-size: 15px;
+  margin:1%;
+  font-family: sans-serif;
+  box-shadow: 5px 5px 10px darkGray;
+}
 .login_message{
   font-weight: light;
   margin-left: 5%;
-  font-size: 20px;
+  font-size: 18px;
+  font-family: sans-serif;
+}
+textarea{
+  display: inline-block;
+  font-size: 22px;
   font-family: sans-serif;
 }
