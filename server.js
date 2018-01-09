@@ -2,6 +2,7 @@ const http = require('http');
 const WebApp = require('./webapp.js');
 const getFileData = require('./lib/utils.js').getFileData;
 const fs = require('fs');
+const timeStamp = require('./lib/time.js').timeStamp;
 const parseData = require('./lib/utils.js').parseData;
 const getMIMEType = require('./lib/utils.js').getMIMEType;
 const getDateAndTimeInArray = require('./lib/utils.js').getDateAndTimeInArray;
@@ -20,6 +21,7 @@ const registered_users = [
     name: 'Vivek Haridas'
   }
 ];
+let toS = o=>JSON.stringify(o,null,2);
 let jsonData = JSON.parse(fs.readFileSync('./data/comments.json', 'utf-8'));
 let PORT = 8000;
 let HOST = '127.0.0.1';
@@ -96,8 +98,20 @@ let loadUser = (req,res)=>{
     req.user = user;
   }
 };
+let logRequest = (req,res)=>{
+  let text = ['------------------------------',
+    `${timeStamp()}`,
+    `${req.method} ${req.url}`,
+    `HEADERS=> ${toS(req.headers)}`,
+    `COOKIES=> ${toS(req.cookies)}`,
+    `BODY=> ${toS(req.body)}`,''].join('\n');
+  fs.appendFile('./data/request.log',text,()=>{});
+
+  console.log(`${req.method} ${req.url}`);
+}
 
 let app = WebApp.create();
+app.use(logRequest);
 app.use(loadUser);
 app.get('/', (req, res) => RequestedFileHandler('index.html', res));
 app.get('/guestBook.html', (req, res) => {
@@ -122,7 +136,7 @@ app.get('/login.html', (req, res) => {
 });
 app.get('/logout', (req, res) => {
   console.log(getGETRequests(req.url));
-  res.setHeader('Set-Cookie', [`loginFailed=false,Expires=${new Date(1).toUTCString()}`, `sessionid=0,Expires=${new Date(1).toUTCString()}`]);
+  res.setHeader('Set-Cookie', [`logInFailed=false;Expires=${new Date(1).toUTCString()}`, `sessionid=0;Expires=${new Date(1).toUTCString()}`]);
   delete req.user.sessionid;
   res.redirect('/login.html');
 });
