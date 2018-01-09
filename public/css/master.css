@@ -1,45 +1,86 @@
-h1{
+h1 {
   text-align: center;
-  color:rgb(244, 201, 18);
+  color: rgb(244, 201, 18);
 }
-div{
+
+div {
   display: inline-block;
   width: 100%;
-  height:100%;
+  height: 100%;
 }
-#jar{
+
+#jar {
   display: block;
 }
-.flowerpageTitle{
+
+.flowerpageTitle {
   text-align: left;
   padding-left: 70px;
 }
-#comment{
+
+#comment {
   display: block;
 }
-button{
+
+button {
   margin-top: 5px;
-  height:30px;
-  width:70px;
+  height: 30px;
+  width: 70px;
 }
-table{
+
+table {
   border-collapse: collapse;
   border: 0px;
 }
-.heading{
+
+.heading {
   border: 0px;
 }
-.comments{
+
+.comments {
   border-radius: 5px;
-  box-shadow: inset 2px 5px 10px lightGray , 3px 4px 10px lightGray;
+  box-shadow: inset 2px 5px 10px lightGray, 3px 4px 10px lightGray;
 }
-td{
+
+td {
   padding: 6px;
 }
-tr{
+
+tr {
   margin: 4px;
   /*border-bottom:2px solid darkGray;*/
 }
-.mainDisplay{
-  border:0px;
+
+.mainDisplay {
+  border: 0px;
+}
+
+input[type="text"] {
+  width: 220px;
+  length: 70px;
+  font-size: 25px;
+  border-radius: 5px;
+  border: 1px solid darkGray;
+  font-family: sans-serif;
+}
+
+label {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+input[type="submit"]{
+  width:100px;
+  height:30px;
+  border-radius: 5px;
+  font-size: 15px;
+  margin:0.8%;
+  font-family: sans-serif;
+  box-shadow: 5px 5px 10px darkGray;
+}
+.login_message{
+  font-weight: light;
+  margin-left: 5%;
+  font-size: 20px;
+  font-family: sans-serif;
 }
