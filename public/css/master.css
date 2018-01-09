@@ -1,0 +1,45 @@
+h1{
+  text-align: center;
+  color:rgb(244, 201, 18);
+}
+div{
+  display: inline-block;
+  width: 100%;
+  height:100%;
+}
+#jar{
+  display: block;
+}
+.flowerpageTitle{
+  text-align: left;
+  padding-left: 70px;
+}
+#comment{
+  display: block;
+}
+button{
+  margin-top: 5px;
+  height:30px;
+  width:70px;
+}
+table{
+  border-collapse: collapse;
+  border: 0px;
+}
+.heading{
+  border: 0px;
+}
+.comments{
+  border-radius: 5px;
+  box-shadow: inset 2px 5px 10px lightGray , 3px 4px 10px lightGray;
+}
+td{
+  padding: 6px;
+}
+tr{
+  margin: 4px;
+  /*border-bottom:2px solid darkGray;*/
+}
+.mainDisplay{
+  border:0px;
+}
