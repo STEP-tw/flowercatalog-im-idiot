@@ -59,12 +59,10 @@ const displayLoginMessage=function(req){
 };
 
 const displayGuestComments = (res, req) => {
-  let filename = `./public/${req.url}`,fileData;
-  if(req.url=='/login.html') fileData= displayLoginMessage(req);
-  else {
-    fileData=getFileData(fs,filename).toString();
-    fileData = fileData.replace('USER', `${req.user.name}`);
-  }
+  let filename = `./public/${req.url}`;
+  let fileData=getFileData(fs,filename).toString();
+  if(req.user) fileData = fileData.replace('USER', `${req.user.name}`);
+  else fileData = fileData.replace('USER', ``);
   fileData = fileData.replace('REPLACE ME', getDataInTable());
   res.setHeader('Content-Type', getMIMEType('html'));
   res.write(fileData);
@@ -112,15 +110,26 @@ let logRequest = (req,res)=>{
 
   console.log(`${req.method} ${req.url}`);
 }
-
+const loginHandler=function(req,res){
+  console.log(getGETRequests(`${req.url}`));
+  let requestedUrl = `./public/${req.url}`;
+  res.setHeader('Content-type', getMIMEType(requestedUrl));
+  let fileData=getFileData(fs, requestedUrl).toString();
+  if(req.cookies.logInFailed) fileData=fileData.replace('LOGIN MESSAGE','LOGIN FAILED');
+  else fileData=fileData.replace('LOGIN MESSAGE','');
+  try {
+    res.write(fileData);
+  } catch (e) {
+    handleFileNotFound(requestedUrl);
+  }
+  res.end();
+  return;
+}
 let app = WebApp.create();
 app.use(logRequest);
 app.use(loadUser);
 app.get('/', (req, res) => RequestedFileHandler('index.html', res));
-app.get('/guestBook.html', (req, res) => {
-  if(req.user)   displayGuestComments(res, req);
-  else res.redirect('/login.html');
-});
+app.get('/guestBook.html', (req, res) => displayGuestComments(res, req));
 app.get('/index.html', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/abeliophyllum.html', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/ageratum.html', (req, res) => RequestedFileHandler(req.url, res));
@@ -134,10 +143,7 @@ app.get('/images/pbase-agerantum.jpg', (req, res) => RequestedFileHandler(req.ur
 app.get('/pdf/Abeliophyllum.pdf', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/pdf/Ageratum.pdf', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/css/master.css', (req, res) => RequestedFileHandler(req.url, res));
-app.get('/login.html', (req, res) => {
-  console.log(getGETRequests(req.url));
-  displayGuestComments(res, req);
-});
+app.get('/login.html', (req, res) => loginHandler(req, res));
 app.get('/logout', (req, res) => {
   console.log(getGETRequests(req.url));
   res.setHeader('Set-Cookie', [`logInFailed=false;Expires=${new Date(1).toUTCString()}`, `sessionid=0;Expires=${new Date(1).toUTCString()}`]);
@@ -147,10 +153,11 @@ app.get('/logout', (req, res) => {
 
 app.post('/comment', (req, res) => {
   console.log(getPOSTRequests(req.url));
+  if(!req.user) res.redirect('/login.html');
   req.body = parseComments(req.body);
-  jsonData.push(req.body);
+  jsonData.unshift(req.body);
   fs.writeFileSync('./data/comments.json', JSON.stringify(jsonData));
-  res.redirect('./guestBook.html');
+  if(!res.finished) res.redirect('./guestBook.html');
 });
 
 app.post('/login.html', (req, res) => {
