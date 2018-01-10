@@ -125,6 +125,7 @@ app.get('/index.html', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/abeliophyllum.html', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/ageratum.html', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/js/index.js', (req, res) => RequestedFileHandler(req.url, res));
+app.get('/js/guestBook.js', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/images/jar.gif', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/images/favicon.ico', (req, res) => RequestedFileHandler(req.url, res));
 app.get('/images/freshorigins.jpg', (req, res) => RequestedFileHandler(req.url, res));
